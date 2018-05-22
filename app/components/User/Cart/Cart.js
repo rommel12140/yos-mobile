@@ -34,6 +34,7 @@ class Cart extends Component {
 			dateID : 'ID',
 			okToCheckout : false,
 			visible: true,
+			totalQuantity: this.props.cartCounter,
 		}
 	}
 
@@ -58,7 +59,8 @@ class Cart extends Component {
 			this.setState({menuDates : newDates});
 		}).then(() => {
 			this.setState({visible: false});
-		  });
+		  })
+		this._okToCheckOut()
 	}
 
 	renderRow(cart, sectionId, rowId, hightlightRow) {
@@ -94,8 +96,11 @@ class Cart extends Component {
 													[
 														{text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
 														{text: 'OK', onPress: () => {
-														this.props.screenProps.addMenuItem(this.props.screenProps.token,cart)
-														this.setState({ okToCheckout : true });
+														this.setState({ 
+															okToCheckout : true,
+															totalQuantity : this.state.totalQuantity + (cart.quantity) 
+														});
+														this.props.screenProps.addMenuItem(this.props.screenProps.token,cart,this.state.totalQuantity)
 														}},
 													],
 													{ cancelable: false }
@@ -172,48 +177,57 @@ class Cart extends Component {
 		})
 	}
 
+	_okToCheckOut(){
+		if(this.props.cartCounter!==0){
+			this.setState({
+				okToCheckout: true
+			})
+		}
+	}
+
 	render() {
 		var storeOrder = [];
 		return(
 			<SafeAreaView style={styles.mainContainer}>
 					<View style={{flex:1}}>
-						<View style={{flexDirection: 'row', flex: .20}}>
-							<View style={{flex : .60, paddingLeft: 10}}>
-								<Dropdown
-									label="Menu Set Schedule"
-									data={this.state.menuDates}
-									onChangeText={(value,index) => {
-										this.initiailiseDropdown(storeOrder, index);
-										this.setState({
-											selectedDate : value,
-											dateID : this.state.menuDates[index].id,
-											cartInput : new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}),
-										})}
-									}
-								/>
-							</View>
-							<View style={{flex: .40}}>
-								<Button
-									raised
-									icon={{name: 'shopping-cart'}}
-									title='CHECKOUT'
-									backgroundColor='#236EFF'
-									disabled = {!this.state.okToCheckout}
-									style = {{ paddingVertical : 20}}
-									onPress={() => this.props.navigation.navigate('Checkout', {cartDetail:this.state.data})} />
-							</View>
-						</View>
-						<ActivityIndicator style={{height:'1%'}} animating={this.state.visible} size='large' />
 						<ScrollView style={{
 									flex : .80,
 									paddingRight: 10,
 									}}>
-						<List containerStyle={{marginBottom: 20}}>
-							<ListView 
-								dataSource={this.state.cartInput} 
-								renderRow={this.renderRow.bind(this)}
-							/>
-						</List>
+							<View style={{flexDirection: 'row', flex: .20}}>
+								<View style={{flex : .60, paddingLeft: 10}}>
+									<Dropdown
+										label="Menu Set Schedule"
+										data={this.state.menuDates}
+										onChangeText={(value,index) => {
+											this.initiailiseDropdown(storeOrder, index);
+											this.setState({
+												selectedDate : value,
+												dateID : this.state.menuDates[index].id,
+												cartInput : new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}),
+											})}
+										}
+									/>
+								</View>
+								<View style={{flex: .40}}>
+									<Button
+										raised
+										icon={{name: 'shopping-cart'}}
+										title='CHECKOUT'
+										backgroundColor='#236EFF'
+										disabled = {!this.state.okToCheckout}
+										style = {{ paddingVertical : 20}}
+										onPress={() => this.props.navigation.navigate('Checkout', {cartID:this.props.cartID})} />
+								</View>
+							</View>
+							<ActivityIndicator style={{height:'1%'}} animating={this.state.visible} size='large' />
+								<Text style={{ fontWeight: 'bold' }}> Counter: {this.props.cartCounter} </Text>
+								<List containerStyle={{marginBottom: 20}}>
+									<ListView 
+										dataSource={this.state.cartInput} 
+										renderRow={this.renderRow.bind(this)}
+									/>
+								</List>
 						</ScrollView>
 					</View>
 			</SafeAreaView>
@@ -226,6 +240,7 @@ function mapStateToProps(state) {
 		setEmployeeCarts: state.setEmployeeCarts,
 		token : state.Token,
 		cartID : state.CartID,
+		cartCounter: state.CartCounter,
 	}
 }
 

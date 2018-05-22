@@ -102,8 +102,20 @@ export const AuthCheck = createReducer(false,{
 	},
 })
 
+export const CreateCart = createReducer(true,{
+	[types.SET_CREATE_CART](state, action){
+		return action.create;
+	},
+})
+
 export const CartID = createReducer("",{
 	[types.SET_CART_ID](state, action){
 		return action.id;
+	},
+})
+
+export const CartCounter = createReducer(0,{
+	[types.SET_CART_COUNTER](state, action){
+		return action.quantity;
 	},
 })

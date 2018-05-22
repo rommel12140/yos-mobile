@@ -19,7 +19,8 @@ export function getCartID(token,user){
 		.then((response) => response.json())
 		.then((response) => {
 			console.log(response.data);
-			dispatch(setCartID({ id: response.data }));
+			dispatch(setCartID({ id: response.data }))
+			dispatch(setCreateCart( { create: false } ))
 		})
 		.catch((error) => {
 			console.log(error)
@@ -29,7 +30,7 @@ export function getCartID(token,user){
 
 export function fetchMenuSchedules(token){
 	return (dispatch,getState) => {
-		return fetch(baseUrl+'menu-schedules-api/', {
+		return fetch(baseUrl+'client-menu-schedules-api/', {
 			method: 'GET',
 			headers: {
 				Accept: 'application/json',
@@ -66,7 +67,7 @@ export function fetchMenuScheduleDetails(token,menuID){
 }
 export function fetchCartDetails(token,order) {
 	return (dispatch,getState) => {
-		return fetch(baseUrl+'cart-detail-api/'+order.cart+'/', {
+		return fetch(baseUrl+'cart-detail-api/'+order+'/', {
 			method: 'GET',
 			headers: {
 				Accept: 'application/json',
@@ -81,7 +82,7 @@ export function fetchCartDetails(token,order) {
 	}
 }
 
-export function addMenuItem(token,cart){
+export function addMenuItem(token,cart,quantity){
 	console.log(JSON.stringify(cart))
 	return (dispatch,getState) => {
 		return fetch(baseUrl+'add-menu-to-cart-api/', {
@@ -93,8 +94,10 @@ export function addMenuItem(token,cart){
 			},
 			body: JSON.stringify(cart)
 		})
-		.then((response) =>
-			console.log(response))
+		.then((response) => {
+			dispatch(setCartCounter({quantity: quantity}))
+			console.log(response)
+		})
 		.catch((error) => {
 			alert(error)
 			console.log(error)
@@ -114,7 +117,10 @@ export function makeOrder(token,cart){
 			},
 			body: JSON.stringify(cart)
 		})
-		.then((response) => console.log(response))
+		.then((response) => {
+			dispatch(setCreateCart({create: true}))
+			dispatch(setCartCounter( {quantity: 0} ))
+			console.log(response)})
 		.catch((error) => {
 			alert(error)
 			console.log(error)
@@ -248,6 +254,12 @@ export function completeOrderDetail(orderDetailId) {
 	}
 } */
 
+export function setCreateCart( { create } ) {
+	return {
+		type: types.SET_CREATE_CART,
+		create
+	}
+}
 
 export function setToken( { token } ) {
 	return {
@@ -295,12 +307,12 @@ export function setCartID( { id } ){
 	}
 }
 
-
-
-
-
-
-
+export function setCartCounter( {quantity} ){
+	return{
+		type: types.SET_CART_COUNTER,
+		quantity
+	}
+}
 
 export function setSearchedRecipes( { recipes } ) {
 	return {

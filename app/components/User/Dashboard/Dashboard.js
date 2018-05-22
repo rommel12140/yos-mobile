@@ -71,11 +71,12 @@ class Dashboard extends Component {
 	}
 	
 	renderRow(order, sectionId, rowId, hightlightRow) {
-		const { navigate } = this.props.navigation;		
+		const { navigate } = this.props.navigation;	
 		return (
 			<TouchableHighlight 
 				underlayColor='blue'
-				//onPress = { () => this.props.navigation.navigate('OrderDetail', {orderDetail: order})}
+				onPress = { () => {
+					this.props.navigation.navigate('OrderDetail', {cartID: order.cart_id})}}
 				>
 				<ListItem roundAvatar 
 						hideChevron
@@ -154,10 +155,10 @@ class Dashboard extends Component {
 				<ActionButton
 					buttonColor="#236EFF"
 					onPress={() => { 
-						console.log(this.props.screenProps.token);
-						console.log(this.props.screenProps.user);
-						this.props.screenProps.getCartID(this.props.screenProps.token,this.props.screenProps.user);
-						this.props.navigation.navigate('Cart'); 
+						if(this.props.createCart===true){
+							this.props.screenProps.getCartID(this.props.screenProps.token,this.props.screenProps.user);
+						}
+							this.props.navigation.navigate('Cart'); 
 					}}
 				/>
 			</View>
@@ -168,6 +169,7 @@ class Dashboard extends Component {
 function mapStateToProps(state) {
 	return {
 		setOrders: state.setOrders,
+		createCart: state.CreateCart,
 	}
 }
 export default connect(mapStateToProps)(Dashboard);
