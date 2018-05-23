@@ -30,8 +30,8 @@ class Login extends Component {
     super(props);
     this.state = {
       //TODO: CHANGE THIS BACK
-      username: 'RYB',
-      password: 'RYB',
+      username: '',
+      password: '',
       loading : false,
     }
   }
@@ -58,7 +58,7 @@ class Login extends Component {
 		setTimeout(()=>{
 			if(this.state.loading===true){
 				Alert.alert('Please Try Again', 
-							'No Internet Connection'
+							'No Connection'
 						)
             this.setState({loading : false})
 			}
@@ -73,6 +73,7 @@ class Login extends Component {
     if(nextProps.accept && !nextProps.fail){
       if(this.props.user.is_Staff){
         //this.props.navigation.navigate('AdminMain');
+        Alert.alert('You are an admin','Only non-admin users are allowed')
         this.setState({loading : false});
       }else{
         this.props.navigation.navigate('UserMain');

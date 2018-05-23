@@ -23,11 +23,11 @@ export function getAuthToken(data) {
 		})
 		.catch((ex) => {
 			if((JSON.stringify(ex.non_field_errors[0]))){
-				alert(JSON.stringify(ex.non_field_errors[0]));
+				alert('Invalid Credentials');
 			}
 			dispatch(setAccepted({ value : false }));
 			dispatch(setFail({ value : true }));
-			console.log("!!!" + JSON.stringify(ex));
+			console.log(JSON.stringify(ex));
 		})
 	}
 }
@@ -252,6 +252,7 @@ export function setUser( { user } ) {
 		user
 	}
 }
+
 export function resetUser() {
 	return {
 		type: types.RESET_USER
@@ -285,36 +286,3 @@ export function setEmployeeCarts( { carts } ) {
 		carts
 	}
 }
-//================================================================
-/* export function fetchOrdersSummary(token) { 
-	return (dispatch, getState) => {
-		return  Api.post('order-summary-report-api/', token)
-		.then((response) => {
-			dispatch(setOrdersSummary({ ordersSummary: response }))
-		})
-		.catch((ex) => {
-			console.log(ex);
-		})
-	}
-} */
-//================================================================
-/* export function setOrdersSummary( { ordersSummary } ) {
-	return {
-		type: types.SET_ORDERS_SUMMARY,
-		ordersSummary
-	}
-} */
-
-/* export function setOrderSummaryDetail( { orderSummaryDetail } ) {
-	return {
-		type: types.SET_ORDER_SUMMARY_DETAIL,
-		orderSummaryDetail
-	}
-} */
-
-/* export function setSearchedRecipes( { recipes } ) {
-	return {
-		type: types.SET_SEARCHED_RECIPES,
-		recipes
-	}
-} */
