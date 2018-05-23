@@ -7,7 +7,7 @@ class Logout extends React.Component {
     return <Icon 
                 name='exit-to-app'
                 size= {35}
-                color= 'blue' 
+                color= 'white' 
                 containerStyle={{paddingRight:10}}
                 type='MaterialCommunityIcons' 
                 title="Logout" 

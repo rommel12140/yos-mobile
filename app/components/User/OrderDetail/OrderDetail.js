@@ -1,29 +1,31 @@
 import React, { Component } from 'react';
-import { SafeAreaView, AppRegistry, View, Text, StyleSheet, ListView, ScrollView  } from 'react-native';
+import { SafeAreaView, 
+		AppRegistry, 
+		View, 
+		Text, 
+		StyleSheet, 
+		ListView, 
+		ScrollView  
+} from 'react-native';
 import { List, ListItem, Button, Card } from 'react-native-elements';
 import { connect } from 'react-redux';
 import Swipeout from 'react-native-swipeout';
 import { NavigationActions } from 'react-navigation';
-import styles from '../../../Themes/LoginStyles';
+import styles from '../../../Themes/Styles';
 import { CartCounter } from '../../../reducers/recipes';
+import { headerOrderDetails } from '../../../Themes/HeaderStyles';
 
 class OrderDetail extends Component {
 	constructor() {
 		super();
 		const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 		this.state = {
-			cartDetails: ds,
+			orderDetails: ds,
 			totalAmount: 0,
 		}
 	}		
 
-	static navigationOptions = {
-		title: 'Order Detail',
-		headerStyle: {
-			backgroundColor: '#8eb3fb'
-		  },
-		tabBarVisible : false,
-	}
+	static navigationOptions = headerOrderDetails
 
 	componentDidMount() {
  		const {params} = this.props.navigation.state;
@@ -31,7 +33,7 @@ class OrderDetail extends Component {
 		this.props.screenProps.fetchCartDetails(this.props.screenProps.token,cartID)
 		.then((response) => {
 			this.setState({
-				cartDetails: this.state.cartDetails.cloneWithRows(response)
+				orderDetails: this.state.orderDetails.cloneWithRows(response)
 			})
  			for(item in response){
 				menuItem = response[item];
@@ -73,15 +75,17 @@ class OrderDetail extends Component {
 	}
 	
 	render() {
+		const {params} = this.props.navigation.state;
+		const cartID = params ? params.cartID : null;
 		return(
 			<SafeAreaView style={styles.mainContainer}>
 				<View style={{flex:1}}>
-					<View style={{alignItems:'center', paddingTop: 10}}>
-						<Text style={{fontSize : 32, fontWeight: 'bold'}}>Order Detail</Text>
+					<View style={{paddingTop: 10}}>
+						<Text style={{fontSize : 22, fontWeight: 'bold'}}>Cart {cartID} </Text>
 					</View>
 					<ScrollView style={{paddingRight: 10}}>
 						<List>
-							<ListView dataSource={this.state.cartDetails} renderRow={this.renderRow.bind(this)}></ListView>
+							<ListView dataSource={this.state.orderDetails} renderRow={this.renderRow.bind(this)}></ListView>
 						</List>
 					</ScrollView>
 					<View style={{alignItems:'center', paddingTop: 10}}>

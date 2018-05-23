@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { 
+  Alert,
   ScrollView, 
   Text, 
   Image, 
@@ -20,7 +21,7 @@ import { connect } from 'react-redux';
 import { Images } from '../../Themes';
 
 // Styles
-import styles from '../../Themes/LoginStyles';
+import styles from '../../Themes/Styles';
 
 const viewPadding = 10;
 
@@ -48,9 +49,21 @@ class Login extends Component {
   }
   
   onSubmit(){
-    this.setState({loading : true});
-    this.props.getAuthToken(this.state);
+    this.setState({loading : true})
+    this._dataLoaded()
+    this.props.getAuthToken(this.state)
   }
+
+  _dataLoaded(){
+		setTimeout(()=>{
+			if(this.state.loading===true){
+				Alert.alert('Please Try Again', 
+							'No Internet Connection'
+						)
+            this.setState({loading : false})
+			}
+	   }, 15000);
+	}
 
   componentWillMount(){
     this.props.resetAuthToken()
@@ -74,9 +87,6 @@ class Login extends Component {
     return (
         <SafeAreaView style={styles.mainContainer}>
           <Image source={Images.background} style={styles.backgroundImage} blurRadius={2}/>
-          {/* <View style={styles.centered}>
-                <Image source={Images.logo} style={styles.logo} height={200} weight={200} />
-          </View> */}
           <KeyboardAwareScrollView contentContainerStyle={styles.container}>
             <View style={styles.loginSquare}>
               <View style={styles.loginHeader}>
@@ -112,8 +122,7 @@ class Login extends Component {
             </View>
           </KeyboardAwareScrollView>
         </SafeAreaView>
-      
-    )
+    );
   }
 }
 

@@ -10,32 +10,32 @@ const api = {
 	/**  fetch Orders API
 	*
 	*/
-	fetchOrders() {
+	/* fetchOrders() {
 		return fetch(baseUrl+'order-api')
 		.then((response) => response.json())
 		.catch((error) => {
 			console.log(error)
 		})
-	},
+	}, */
 	/** fetch Cart Details API
 	* Requires order object
 	*/
-	fetchCartDetails(order) {
+	/* fetchCartDetails(order) {
 		return fetch(baseUrl+'cart-detail-api/'+order.cart+'/')
 		.then((response) => response.json())
 		.catch((error) => {
 			console.log(error)
 		})
-	},
+	}, */
 	/** fetch Menu API
 	 * 
 	 */
-	fetchMenus(token) {
+	/* fetchMenus(token) {
 		console.log(token);
 		return Api.post('menu-api', token)
 		.then((response) => response.json())
 		.catch((error) => console.log(error));
-
+	}, */
 
 	/* 
 		return fetch(baseUrl+'menu-api')
@@ -43,11 +43,10 @@ const api = {
 		.catch((error) => {
 			console.log(error)
 		}) */
-	},
 	/** fetch Carts of the Associated Order
 	 *  
 	 */
-	fetchOrderCarts(token,carts) {
+	/* fetchOrderCarts(token,carts) {
 		alert(carts)
 		return Api.post('order-carts-api/', {
 			token:token,
@@ -65,11 +64,11 @@ const api = {
 		.catch((error) => {
 			console.log(error);
 		})
-	},
+	}, */
 	/** fetch Order Summary for Today API
 	 * Fetches the orders for the current date
 	 */
-	fetchTodayOrderSummary() {
+	/* fetchTodayOrderSummary() {
 		return fetch(baseUrl+'order-summary-report-api')
 		.then((response) => response.json())
 		.then((response) => {
@@ -84,11 +83,11 @@ const api = {
 		.catch((error) => {
 			console.log(error)
 		})
-	},
+	}, */
 	/** fetch Cart Detail associated to the ids
 	 *  Requires an array of ids
 	 */
-	fetchCartDetailWithIds(cart_detail_ids) {
+	/* fetchCartDetailWithIds(cart_detail_ids) {
 		return fetch(baseUrl+'cart-details-api/', {
 			method: 'POST',
 			headers: {
@@ -112,11 +111,11 @@ const api = {
 		.catch((error) => {
 			console.log(error)
 		})
-	},
+	}, */
 	/** post Complete Detail api
 	 *  Requires a cart_detail id
 	 */
-	completeDetail(detail) {
+	/* completeDetail(detail) {
 		return fetch(baseUrl+'complete-cart-detail-api/', {
 			method: 'POST',
 			headers: {
@@ -131,7 +130,7 @@ const api = {
 		.catch((error) => {
 			console.log(error)
 		})
-	}
+	}*/
 }
 
 module.exports = api;

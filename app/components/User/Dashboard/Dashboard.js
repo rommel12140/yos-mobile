@@ -4,8 +4,8 @@ import { List, ListItem, Button, Card, ButtonGroup, Icon } from 'react-native-el
 import { connect } from 'react-redux';
 import { Dropdown } from 'react-native-material-dropdown';
 import ActionButton from 'react-native-action-button';
-import Logout from '../../Logout/Logout';
-import styles from '../../../Themes/LoginStyles';
+import styles from '../../../Themes/Styles';
+import { headerDashboard } from '../../../Themes/HeaderStyles';
 
 class Dashboard extends Component {
 	constructor() {
@@ -18,17 +18,8 @@ class Dashboard extends Component {
 			refreshing: false,
 		}
 	}
-
-
-	static navigationOptions = {
-		title: 'Dashboard',
-		headerStyle: {
-			backgroundColor: '#8eb3fb'
-		  },
-		headerRight: (
-			<Logout />
-		),
-	};
+	
+	static navigationOptions = headerDashboard
 
 	componentDidMount() {
 		this.loadOrders();
@@ -74,7 +65,7 @@ class Dashboard extends Component {
 		const { navigate } = this.props.navigation;	
 		return (
 			<TouchableHighlight 
-				underlayColor='blue'
+				underlayColor='gray'
 				onPress = { () => {
 					this.props.navigation.navigate('OrderDetail', {cartID: order.cart_id})}}
 				>
@@ -137,11 +128,10 @@ class Dashboard extends Component {
 						  refreshing={this.state.refreshing}
 						  onRefresh={this._onRefresh.bind(this)}
 						/>
-						}
-					>
+						}>
 					<Dropdown
 						label="Filter"
-						containerStyle={{width: '40%', height: '3%'}}
+						containerStyle={{width: '40%', height: '2%'}}
 						data={
 							[{label: "All", value : 0},{label: "Not Paid", value : 1},{label: "Paid", value : 2}]
 							}
@@ -153,7 +143,7 @@ class Dashboard extends Component {
 					</List>
 				</ScrollView>
 				<ActionButton
-					buttonColor="#236EFF"
+					buttonColor="#474d56"
 					onPress={() => { 
 						if(this.props.createCart===true){
 							this.props.screenProps.getCartID(this.props.screenProps.token,this.props.screenProps.user);

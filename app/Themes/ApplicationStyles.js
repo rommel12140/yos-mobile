@@ -7,6 +7,9 @@ import Colors from './Colors'
 
 const ApplicationStyles = {
   screen: {
+    headerStyle: {
+      backgroundColor: '#474d56',
+		},
     mainContainer: {
       flex: 1,
       backgroundColor: Colors.background,
@@ -31,27 +34,6 @@ const ApplicationStyles = {
       margin: Metrics.section,
       padding: Metrics.smallMargin
     },
-    sectionTitleLogin: {
-      ...Fonts.style.h1,
-      paddingVertical: Metrics.baseMargin,
-      color: '#236EFF',
-      marginVertical: Metrics.smallMargin,
-      textAlign: 'center',
-    },
-    sectionLogin: {
-      ...Fonts.style.normal,
-      paddingVertical: Metrics.baseMargin,
-      color: '#236EFF',
-      marginVertical: Metrics.smallMargin,
-      textAlign: 'center'
-    },
-    sectionLoginInput: {
-      height: 40,
-      backgroundColor: 'rgba(255,255,255,0.2)',
-      marginBottom: 20,
-      color: '#FFF',
-      paddingHorizontal: 10
-    },
     sectionText: {
       ...Fonts.style.normal,
       paddingVertical: Metrics.doubleBaseMargin,
@@ -69,45 +51,24 @@ const ApplicationStyles = {
       ...Fonts.style.h2,
       fontSize: 14,
       color: Colors.text
-    }
-  },
-  darkLabelContainer: {
-    padding: Metrics.smallMargin,
-    paddingBottom: Metrics.doubleBaseMargin,
-    borderBottomColor: Colors.border,
-    borderBottomWidth: 1,
-    marginBottom: Metrics.baseMargin
-  },
-  darkLabel: {
-    fontFamily: Fonts.type.bold,
-    color: Colors.snow
-  },
-  groupContainer: {
-    margin: Metrics.smallMargin,
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center'
-  },
-  sectionTitle: {
-    ...Fonts.style.h4,
-    color: Colors.coal,
-    backgroundColor: Colors.ricePaper,
-    padding: Metrics.smallMargin,
-    marginTop: Metrics.smallMargin,
-    marginHorizontal: Metrics.baseMargin,
-    borderWidth: 1,
-    borderColor: Colors.ember,
-    alignItems: 'center',
-    textAlign: 'center',
-  },
-  textInput: {
-    height: 40,
-    paddingRight: 10,
-    paddingLeft: 10,
-    borderColor: "black",
-    borderWidth: 1,
-    width: "100%",
-    color : "black",
+    },
+    container: {
+      width: '100%',
+      height: '100%',
+      justifyContent: 'center',
+      alignItems: 'center',
+      display: 'flex',
+    },
+    centered: {
+      alignItems: 'center'
+    },
+    titleCart: {
+      fontWeight: 'bold',
+      fontSize: 20,
+    },
+    info : {
+      fontSize: 16,
+    },
   },
 }
 

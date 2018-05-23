@@ -1,14 +1,23 @@
 import React, { Component } from 'react';
-import { SafeAreaView, AppRegistry, View, Text, StyleSheet, ListView, ScrollView, SectionList } from 'react-native';
+import { SafeAreaView, 
+		 AppRegistry,
+		 View, 
+		 Text, 
+		 StyleSheet, 
+		 ListView, 
+		 ScrollView, 
+		 SectionList 
+} from 'react-native';
 import { List, ListItem, Button, Card } from 'react-native-elements';
 import { connect } from 'react-redux';
 import Swipeout from 'react-native-swipeout';
 import { NavigationActions } from 'react-navigation';
-import styles from '../../../Themes/LoginStyles';
+import styles from '../../../Themes/Styles';
 import { CartCounter } from '../../../reducers/recipes';
+import { headerCheckout } from '../../../Themes/HeaderStyles';
 import _ from 'lodash';
 
-class CartDetail extends Component {
+class Checkout extends Component {
 	constructor() {
 		super();
 		const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
@@ -18,13 +27,7 @@ class CartDetail extends Component {
 		}
 	}		
 
-	static navigationOptions = {
-		title: 'Checkout',
-		headerStyle: {
-			backgroundColor: '#8eb3fb'
-		  },
-		tabBarVisible : false,
-	}
+	static navigationOptions = headerCheckout
 
 	componentDidMount() {
  		const {params} = this.props.navigation.state;
@@ -44,47 +47,19 @@ class CartDetail extends Component {
 	onPress(){
 		const {params} = this.props.navigation.state;
 		const cartID = params ? params.cartID : null;
-		var cart = {
+		var cartInit = {
 			cart: this.props.cartID,
 			payment_method: "Salary Deduction",
 			total_cost: this.state.totalAmount,
 			user: this.props.user.id,
 		};
-		this.props.screenProps.makeOrder(this.props.token,cart);
+		this.props.screenProps.makeOrder(this.props.token,cartInit);
 		this.props.navigation.navigate('Dashboard')
 	}
 
 	deletThis(id){
 		alert("delete item id: " + id);
 	}
-
-	/* renderRow(menu, sectionId, rowId, hightlightRow) {
-		const swipeoutBtns = [
-			{ text: 'Remove', backgroundColor: 'red', onPress : this.deletThis.bind(this,menu.id) },
-		]
-		console.log(menu);
-		return (
-			<Swipeout right={swipeoutBtns}>
-				<ListItem 
-					hideChevron={true}
-					key={menu.id}
-					title={
-						<Text>
-							<Text style={{ padding: 5, fontSize : 18 , fontWeight : 'bold'}}>
-								{menu.menu.name}
-							</Text>
-							{" x " + menu.quantity}
-						</Text>
-					}
-					subtitle={
-						<View style={{ paddingLeft : 5 }}>
-							<Text>Php <Text style={{ fontWeight: 'bold' }}>{Number(menu.menu.credit_cost).toFixed(2)}</Text></Text>
-							<Text>Menu Schedule: {menu.menu_set_schedule.date} </Text>
-						</View>
-					}/>
-			</Swipeout>
-		)
-	} */
 
 	renderItem = (item) => {
 		const swipeoutBtns = [
@@ -133,14 +108,14 @@ class CartDetail extends Component {
 				<View style={{flex:1}}>
 					<View style={{alignItems:'center', paddingTop: 10}}>
 						<Text style={{fontSize : 32, fontWeight: 'bold'}}>Purchase</Text>
-						<Text style={{ fontWeight: 'bold' }}> Total of {this.props.cartCounter} item(s)</Text>
+						<Text style={{ fontWeight: 'bold' }}> Total of {this.props.cartCounter} { (this.props.cartCounter>1) ? 'items':'item' }</Text>
 					</View>
 					<ScrollView style={{paddingRight: 10}}>
 						<List>
 							<SectionList renderItem={this.renderItem}
 									renderSectionHeader={this.renderSectionHeader}
 									sections={dataSource}
-									keyExtractor={(item)=> item.name}
+									keyExtractor={(item)=> item.id}
 									/>
 						</List>
 					</ScrollView>
@@ -152,8 +127,9 @@ class CartDetail extends Component {
 					<Button
 						raised
 						title="Confirm"
+						containerStyle={{marginBottom: 10}}
 						onPress={this.onPress.bind(this)}
-						backgroundColor='#236EFF'
+						backgroundColor='#474d56'
 					/>
 				</View>
 			</SafeAreaView>
@@ -171,6 +147,6 @@ function mapStateToProps(state) {
 	}
 }
 
-export default connect(mapStateToProps)(CartDetail);
+export default connect(mapStateToProps)(Checkout);
 
-AppRegistry.registerComponent('CartDetail', () => CartDetail)
+AppRegistry.registerComponent('Checkout', () => Checkout)

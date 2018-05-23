@@ -20,7 +20,8 @@ import api from '../../../../utilities/api';
 import { Dropdown } from 'react-native-material-dropdown';
 import { fetchMenuDetails } from '../../../actions/recipes';
 import ActionButton from 'react-native-action-button';
-import styles from '../../../Themes/LoginStyles';
+import styles from '../../../Themes/Styles';
+import { headerCart } from '../../../Themes/HeaderStyles';
 
 class Cart extends Component {
 	constructor(props) {
@@ -38,13 +39,7 @@ class Cart extends Component {
 		}
 	}
 
-	static navigationOptions = {
-		title: 'Order',
-		headerStyle: {
-			backgroundColor: '#8eb3fb'
-		  },
-		tabBarVisible : false,
-	}
+	static navigationOptions = headerCart
 
 	componentDidMount() {
 		this.props.screenProps.fetchMenuSchedules(this.props.screenProps.token)
@@ -60,6 +55,7 @@ class Cart extends Component {
 		}).then(() => {
 			this.setState({visible: false});
 		  })
+		this._dataLoaded()
 		this._okToCheckOut()
 	}
 
@@ -111,7 +107,7 @@ class Cart extends Component {
 										}}
 										name='add-shopping-cart'
 										type='MaterialCommunityIcons'
-										color='#236EFF'
+										color='#474d56'
 									/>
 									<Dropdown
 										label="Quantity"
@@ -185,51 +181,84 @@ class Cart extends Component {
 		}
 	}
 
+	_dataLoaded(){
+		setTimeout(()=>{
+			if(this.state.visible===true){
+				Alert.alert('Please Try Again', 
+							'Data took too long to load \n(Check your connection)'
+						)
+				this.props.navigation.navigate('Dashboard')
+			}
+	   }, 15000);
+	}
+
 	render() {
 		var storeOrder = [];
 		return(
 			<SafeAreaView style={styles.mainContainer}>
-					<View style={{flex:1}}>
-						<ScrollView style={{
-									flex : .80,
-									paddingRight: 10,
-									}}>
-							<View style={{flexDirection: 'row', flex: .20}}>
-								<View style={{flex : .60, paddingLeft: 10}}>
-									<Dropdown
-										label="Menu Set Schedule"
-										data={this.state.menuDates}
-										onChangeText={(value,index) => {
-											this.initiailiseDropdown(storeOrder, index);
-											this.setState({
-												selectedDate : value,
-												dateID : this.state.menuDates[index].id,
-												cartInput : new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}),
-											})}
-										}
-									/>
-								</View>
-								<View style={{flex: .40}}>
-									<Button
-										raised
-										icon={{name: 'shopping-cart'}}
-										title='CHECKOUT'
-										backgroundColor='#236EFF'
-										disabled = {!this.state.okToCheckout}
-										style = {{ paddingVertical : 20}}
-										onPress={() => this.props.navigation.navigate('Checkout', {cartID:this.props.cartID})} />
-								</View>
+				<View style={{flex:1}}>
+					<ScrollView style={{
+								flex : .80,
+								paddingRight: 10,
+								marginBottom: 10,
+								}}>
+						<View style={{flexDirection: 'row', flex: .20}}>
+							<View style={{flex : .70, paddingLeft: 10}}>
+								<Dropdown
+									label="Menu Set Schedule"
+									data={this.state.menuDates}
+									onChangeText={(value,index) => {
+										this.initiailiseDropdown(storeOrder, index);
+										this.setState({
+											selectedDate : value,
+											dateID : this.state.menuDates[index].id,
+											cartInput : new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}),
+										})}
+									}
+								/>
 							</View>
-							<ActivityIndicator style={{height:'1%'}} animating={this.state.visible} size='large' />
-								<Text style={{ fontWeight: 'bold' }}> Counter: {this.props.cartCounter} </Text>
-								<List containerStyle={{marginBottom: 20}}>
-									<ListView 
-										dataSource={this.state.cartInput} 
-										renderRow={this.renderRow.bind(this)}
-									/>
-								</List>
-						</ScrollView>
-					</View>
+							<View style={{flex: .30}}>
+								<Button raised 
+									title='New'
+									icon={{name: 'layers'}}
+									style = {{marginTop : 20}}
+									color= 'white'
+									onPress= {() => {
+										Alert.alert(
+											'Confirm',
+											'You will be given a new cart',
+											[
+												{text: 'Yes', onPress: () => {
+													this.props.screenProps.getNewCartID(this.props.token,this.props.user)
+													this.setState({
+														okToCheckout: false,
+														totalQuantity: 0
+													})
+												}},
+												{text: 'No', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+											])
+									}}
+								/>
+							</View>
+						</View>
+						<ActivityIndicator style={{height:'1%'}} animating={this.state.visible} size='large' />
+							<Text style={{ fontWeight: 'bold' }}> Counter: {this.props.cartCounter} </Text>
+							<List containerStyle={{marginBottom: 20}}>
+								<ListView 
+									dataSource={this.state.cartInput} 
+									renderRow={this.renderRow.bind(this)}
+								/>
+							</List>
+					</ScrollView>
+				</View>
+				<Button
+					raised
+					icon={{name: 'shopping-cart'}}
+					title='CHECKOUT'
+					containerStyle={{marginBottom: 10}}
+					backgroundColor={styles.loginButton.backgroundColor}
+					disabled = {!this.state.okToCheckout}
+					onPress={() => this.props.navigation.navigate('Checkout', {cartID:this.props.cartID})} />
 			</SafeAreaView>
 		)
 	}
