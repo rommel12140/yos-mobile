@@ -10,18 +10,16 @@ import { ActivityIndicator,
 		TouchableHighlight, 
 		SectionList, 
 		ScrollView, 
-		Picker, 
-		TextInput,
 } from 'react-native';
-import { connect } from 'react-redux';
 import { List, ListItem, Button, Card, Header, Icon } from 'react-native-elements';
+import { fetchMenuDetails } from '../../../actions/recipes';
+import { headerCart } from '../../../Themes/HeaderStyles';
+import { Dropdown } from 'react-native-material-dropdown';
+import { connect } from 'react-redux';
 import Swipeout from 'react-native-swipeout';
 import api from '../../../../utilities/api';
-import { Dropdown } from 'react-native-material-dropdown';
-import { fetchMenuDetails } from '../../../actions/recipes';
 import ActionButton from 'react-native-action-button';
 import styles from '../../../Themes/Styles';
-import { headerCart } from '../../../Themes/HeaderStyles';
 
 class Cart extends Component {
 	constructor(props) {

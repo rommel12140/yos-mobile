@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { createStackNavigator, 
+		 TabNavigator, 
+	     TabBarBottom, 
+		 addNavigationHelpers 
+} from 'react-navigation';
 import { bindActionCreators } from 'redux';
 import { ActionCreators } from '../actions';
-import { createStackNavigator, TabNavigator, TabBarBottom, addNavigationHelpers } from 'react-navigation';
 import Dashboard from '../components/User/Dashboard/Dashboard';
 import Cart  from '../components/User/Cart/Cart';
 import OrderDetail from '../components/User/OrderDetail/OrderDetail';

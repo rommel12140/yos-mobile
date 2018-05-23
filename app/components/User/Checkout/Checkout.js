@@ -9,12 +9,12 @@ import { SafeAreaView,
 		 SectionList 
 } from 'react-native';
 import { List, ListItem, Button, Card } from 'react-native-elements';
+import { NavigationActions } from 'react-navigation';
+import { headerCheckout } from '../../../Themes/HeaderStyles';
+import { CartCounter } from '../../../reducers/recipes';
 import { connect } from 'react-redux';
 import Swipeout from 'react-native-swipeout';
-import { NavigationActions } from 'react-navigation';
 import styles from '../../../Themes/Styles';
-import { CartCounter } from '../../../reducers/recipes';
-import { headerCheckout } from '../../../Themes/HeaderStyles';
 import _ from 'lodash';
 
 class Checkout extends Component {

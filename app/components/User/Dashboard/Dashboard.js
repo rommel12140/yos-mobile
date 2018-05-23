@@ -1,11 +1,20 @@
 import React, { Component } from 'react';
-import { AppRegistry, Platform, StyleSheet, Text, View, ListView, TouchableHighlight, RefreshControl, ScrollView } from 'react-native';
+import { AppRegistry, 
+		 Platform, 
+		 StyleSheet, 
+		 Text, 
+		 View, 
+		 ListView, 
+		 TouchableHighlight, 
+		 RefreshControl, 
+		 ScrollView 
+} from 'react-native';
 import { List, ListItem, Button, Card, ButtonGroup, Icon } from 'react-native-elements';
-import { connect } from 'react-redux';
+import { headerDashboard } from '../../../Themes/HeaderStyles';
 import { Dropdown } from 'react-native-material-dropdown';
+import { connect } from 'react-redux';
 import ActionButton from 'react-native-action-button';
 import styles from '../../../Themes/Styles';
-import { headerDashboard } from '../../../Themes/HeaderStyles';
 
 class Dashboard extends Component {
 	constructor() {

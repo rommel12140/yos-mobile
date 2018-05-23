@@ -8,12 +8,12 @@ import { SafeAreaView,
 		ScrollView  
 } from 'react-native';
 import { List, ListItem, Button, Card } from 'react-native-elements';
+import { headerOrderDetails } from '../../../Themes/HeaderStyles';
+import { NavigationActions } from 'react-navigation';
+import { CartCounter } from '../../../reducers/recipes';
 import { connect } from 'react-redux';
 import Swipeout from 'react-native-swipeout';
-import { NavigationActions } from 'react-navigation';
 import styles from '../../../Themes/Styles';
-import { CartCounter } from '../../../reducers/recipes';
-import { headerOrderDetails } from '../../../Themes/HeaderStyles';
 
 class OrderDetail extends Component {
 	constructor() {
