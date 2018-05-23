@@ -50,8 +50,29 @@ class Login extends Component {
   
   onSubmit(){
     this.setState({loading : true})
-    this._dataLoaded()
+    this.verifyInput()
     this.props.getAuthToken(this.state)
+  }
+
+  verifyInput(){
+    if(this.state.username===''&&this.state.password===''){
+      alert('Enter Username and Password') 
+      this.setState({loading : false})
+    }  
+    else{
+      if(this.state.username===''){
+        alert('Enter Username')
+        this.setState({loading : false})
+      }
+      else{
+        if(this.state.password===''){
+          alert('Enter Password')
+          this.setState({loading : false}) 
+        }
+        else
+          this._dataLoaded()
+      }
+    }
   }
 
   _dataLoaded(){
