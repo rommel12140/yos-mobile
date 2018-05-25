@@ -38,20 +38,34 @@ class Cart extends Component {
 	}
 
 	static navigationOptions = headerCart
+	
+	//TODO checking for bugs
+	getDateToday(){
+		var today = new Date()
+		var date = new Date(today.toLocaleString("en-us", { month: "long" }) + "-"+ today.getDate() +"-"+ today.getFullYear());
+		return date
+	}
 
 	componentDidMount() {
+		var storeOrder = [];
+		var date = this.getDateToday().getTime()
 		this.props.screenProps.fetchMenuSchedules(this.props.screenProps.token)
 		.then((response) => {
 			var newDates = [];
 			newDates = Object.keys(response).map((key) =>{
-				return { 
-					value : response[key].date,
-					id : response[key].id,
+				var compDate = new Date(response[key].date)
+				//alert(compDate)
+				if(compDate>=date){
+					return {
+						value : response[key].date,
+						id : response[key].id,
+					}
 				}
 			})
 			this.setState({menuDates : newDates});
 		}).then(() => {
 			this.setState({visible: false});
+			this.initiailiseDropdown(storeOrder,1)
 		  })
 		this._dataLoaded()
 		this._okToCheckOut()
@@ -205,6 +219,7 @@ class Cart extends Component {
 								<Dropdown
 									label="Menu Set Schedule"
 									data={this.state.menuDates}
+									value='May-31-2018'
 									onChangeText={(value,index) => {
 										this.initiailiseDropdown(storeOrder, index);
 										this.setState({
@@ -221,6 +236,7 @@ class Cart extends Component {
 									icon={{name: 'layers'}}
 									style = {{marginTop : 20}}
 									color= 'white'
+									disabled = {!this.state.okToCheckout}
 									onPress= {() => {
 										Alert.alert(
 											'Confirm',

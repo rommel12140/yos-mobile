@@ -57,13 +57,13 @@ class Checkout extends Component {
 		this.props.navigation.navigate('Dashboard')
 	}
 
-	deletThis(id){
-		alert("delete item id: " + id);
+	deletThis(item){
+		alert("Item delete is still not available\n Please create a new cart instead");
 	}
 
 	renderItem = (item) => {
 		const swipeoutBtns = [
-			{ text: 'Remove', backgroundColor: 'red', onPress : () =>  {this.deletThis(this.item.item.id)} }
+			{ text: 'Remove', backgroundColor: 'red', onPress : () =>  {this.deletThis(item.item)} }
 		]
 		return (
 			<Swipeout right={swipeoutBtns}>
